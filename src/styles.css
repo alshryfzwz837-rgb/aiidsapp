@@ -1,0 +1,125 @@
+@import "tailwindcss" source("../");
+
+/* AI-IDS 6.0 design tokens — dark SOC identity */
+@theme {
+  --font-sans: "Tajawal", "Cairo", "Inter", system-ui, sans-serif;
+  --font-latin: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+
+  --color-body: #020b18;
+  --color-base: #06111f;
+  --color-surface: #08192b;
+  --color-line: #123b61;
+  --color-cyan: #06b6d4;
+  --color-cyan-bright: #00d9ff;
+  --color-ok: #10b981;
+  --color-ok-bright: #00e676;
+  --color-threat: #ef4444;
+  --color-critical: #ff1744;
+  --color-warn: #f59e0b;
+  --color-violet: #8b5cf6;
+  --color-azure: #3b82f6;
+  --color-ink: #f8fafc;
+  --color-ink-2: #94a3b8;
+  --color-ink-3: #64748b;
+}
+
+html,
+body {
+  background: #020b18;
+  color: #f8fafc;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  background:
+    radial-gradient(1200px 600px at 50% -10%, rgba(6, 182, 212, 0.09), transparent 60%),
+    radial-gradient(800px 500px at 10% 110%, rgba(59, 130, 246, 0.06), transparent 60%),
+    linear-gradient(rgba(18, 59, 97, 0.14) 1px, transparent 1px) 0 0 / 32px 32px,
+    linear-gradient(90deg, rgba(18, 59, 97, 0.14) 1px, transparent 1px) 0 0 / 32px 32px,
+    #020b18;
+  background-attachment: fixed;
+}
+
+/* Technical values (IPs, model names, protocols) always read left-to-right */
+.ltr {
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-family: var(--font-latin);
+}
+.mono {
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.glass {
+  background: rgba(8, 25, 43, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(6, 182, 212, 0.25);
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.02);
+  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+}
+.glass-hover:hover {
+  transform: translateY(-2px);
+  border-color: rgba(6, 182, 212, 0.75);
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
+}
+
+:focus-visible {
+  outline: 2px solid #00d9ff;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #123b61 transparent;
+}
+
+@keyframes pulse-ring {
+  0% { r: 3; opacity: 0.9; }
+  100% { r: 14; opacity: 0; }
+}
+.pulse-ring {
+  animation: pulse-ring 1.8s ease-out infinite;
+}
+
+@keyframes grow-x {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.bar-grow {
+  transform-origin: right;
+  animation: grow-x 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+[dir="ltr"] .bar-grow {
+  transform-origin: left;
+}
+
+@keyframes blink {
+  50% { opacity: 0.35; }
+}
+.blink {
+  animation: blink 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse-ring, .bar-grow, .blink { animation: none; }
+  .glass { transition: none; }
+}
+
+/* PDF export (window.print) — hide chrome, keep dark cards legible */
+@media print {
+  aside, header.sticky, footer { display: none !important; }
+  body { background: #020b18 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .glass { backdrop-filter: none; break-inside: avoid; }
+}
